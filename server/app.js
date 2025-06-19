@@ -2,9 +2,20 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import mongoose from "mongoose";
+import pizzas from './controllers/pizzas.js';
 
 // Load environment variables from .env file
 dotenv.config();
+
+mongoose.connect( process.env.MONGODB );
+const db = mongoose.connection;
+
+db.on("error", console.error.bind(console, "Connection Error:"));
+db.once(
+  "open",
+  console.log.bind(console, "Successfully opened connection to Mongo!")
+);
 
 // get the PORT from the environment variables, OR use 3000 as default
 const PORT = process.env.PORT || 3000;
@@ -33,7 +44,7 @@ app.get("/status", (request, response) => {
    // End and return the response
   response.json({ message: "Service healthy" });
 });
-// -------------REMOVE lines 37-63 to use as template for ANY app
+// -------------REMOVE lines 47-74 to use as template for ANY app (weather stuff)
 // Handle the request with HTTP GET method with query parameters and a url parameter
 app.get("/weather/:city", (request, response) => {
   // Express adds a "params" Object to requests that has an matches parameter created using the colon syntax
@@ -61,6 +72,9 @@ app.get("/weather/:city", (request, response) => {
     city
   });
 });
+
+// http://localhost:3000/pizzas
+app.use("/pizzas", pizzas);
 
 // Tell the Express app to start listening
 // Let the humans know I am running and listening on 3000
