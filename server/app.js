@@ -28,6 +28,7 @@ const logging = (request, response, next) => {
   next();
 };
 
+// middleware, runs on every request
 app.use(cors());
 app.use(express.json());
 app.use(logging);
@@ -73,7 +74,7 @@ app.get("/weather/:city", (request, response) => {
   });
 });
 
-// http://localhost:3000/pizzas
+// handles any URL hat starts with "/pizzas" ie http://localhost:3000/pizzas
 app.use("/pizzas", pizzas);
 
 // Tell the Express app to start listening

@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// defines the data
 const pizzaSchema = new mongoose.Schema({
   customer: {
     type: String,
